@@ -1,0 +1,23 @@
+<?php
+
+use App\Services\ZohoService;
+use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
+
+Artisan::command('inspire', function () {
+    $this->comment(Inspiring::quote());
+})->purpose('Display an inspiring quote');
+
+Artisan::command('contracts:check-expiring {--days=30}', function (ZohoService $zohoService) {
+    $days = (int) $this->option('days');
+    $this->info("Scanning Zoho CRM for contracts expiring in next {$days} days...");
+
+    $result = $zohoService->autoCreateExpiringFollowups($days);
+
+    $created = $result['created'] ?? 0;
+    $this->info("Done! Total renewal tasks created: {$created}");
+})->purpose('Automatically scan expiring contracts and create follow-up tasks in Zoho CRM');
+
+// Schedule daily run
+Schedule::command('contracts:check-expiring')->daily();
