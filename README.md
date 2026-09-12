@@ -8,7 +8,7 @@ This repository contains the solution for the CRM & Automation Developer assessm
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repo-url>
+   gh repo clone HabibKhan99811/BrandovisCRMIntegration
    cd BrandovisCRMIntegration
    ```
 
